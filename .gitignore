@@ -1,0 +1,4 @@
+*.csv*
+env/
+chainxy/settings.py
+*/**/*.pyc
