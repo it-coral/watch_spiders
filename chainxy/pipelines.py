@@ -49,7 +49,7 @@ class ChainxyPipeline(object):
         file.close()
         file_name = self.file_names.pop(spider)
         message = '%s file is ready' % file_name
-        # self.slack_message(message, '#web-scrapper')
+        self.slack_message(message, '#web-scrapper')
         # print(self.upload_s3(file_name))
 
     def process_item(self, item, spider):
