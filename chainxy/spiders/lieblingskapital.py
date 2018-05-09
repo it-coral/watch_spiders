@@ -14,6 +14,7 @@ import time
 import pdb
 from googleapiclient.discovery import build
 from chainxy.settings import GOOGLE_API_KEY
+import re
 service = build('translate', 'v2', developerKey=GOOGLE_API_KEY)
 
 class LieblingskapitalSpider(scrapy.Spider):
@@ -48,7 +49,7 @@ class LieblingskapitalSpider(scrapy.Spider):
                 return
             
             item['watchr_price'] = ''
-            item['currency'] = response.xpath('//meta[@property="og:price:amount"]/@content').extract_first()
+            item['currency'] = response.xpath('//meta[@property="og:price:currency"]/@content').extract_first()
             item['dealer_link'] = response.url
             image_urls = response.xpath('(//div[@class="shop_product__overview__gallery__thumbnails--wrapper"])[1]/div/@data-src').extract()
 
@@ -56,7 +57,7 @@ class LieblingskapitalSpider(scrapy.Spider):
             for image in image_urls:
                 images.append('https:' + image.strip().split('?')[0])
 
-            item['img_link'] = '"' + ', '.join(images) + '"'
+            item['img_link'] = "" + ', '.join(images) + ""
 
             dd_list = response.xpath('//dl[@class="shop_product__details__specifications"]//dd')
             key_list = response.xpath('//dl[@class="shop_product__details__specifications"]//dh/text()').extract()
@@ -92,6 +93,8 @@ class LieblingskapitalSpider(scrapy.Spider):
                         continue
                     if 'Alter' in dh:
                         item['year'] = dd_list[index].xpath('./text()').extract_first()
+                        item['year'] = re.findall('\d+', item['year'])[0]
+
                         continue
                     if 'Ziffernblatt' in dh:
                         item['dial_color'] = dd_list[index].xpath('./text()').extract_first()

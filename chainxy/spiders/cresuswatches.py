@@ -71,7 +71,7 @@ class CresuswatchesSpider(scrapy.Spider):
             for image in image_urls:
                 images.append('https:' + image.strip().split('?')[0])
 
-            item['img_link'] = '"' + ', '.join(images) + '"'
+            item['img_link'] = "" + ', '.join(images) + ""
             
             item['description'] = response.xpath('//span[@itemprop="description"]/text()').extract_first()
             item['model'] = response.xpath('//meta[@itemprop="name"]/@content').extract_first().replace(item['brand'], '').strip()
