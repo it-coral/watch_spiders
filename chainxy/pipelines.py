@@ -48,9 +48,9 @@ class ChainxyPipeline(object):
         file = self.files.pop(spider)
         file.close()
         file_name = self.file_names.pop(spider)
-        message = '%s file is ready' % file_name
+        file_path = self.upload_s3(file_name)
+        message = '%s file is ready' % file_path
         self.slack_message(message, '#web-scrapper')
-        # print(self.upload_s3(file_name))
 
     def process_item(self, item, spider):
         self.exporter.export_item(item)
@@ -68,4 +68,5 @@ class ChainxyPipeline(object):
         transfer = S3Transfer(client)
         transfer.upload_file(file_name, settings.BUCKET_NAME, file_name,
                              extra_args={'ACL': 'public-read'})
-        return '%s/%s/%s' % (client.meta.endpoint_url, settings.BUCKET_NAME, file_name)
+
+        return 'https://%s.s3.eu-west-2.amazonaws.com/%s' % (settings.BUCKET_NAME, file_name)

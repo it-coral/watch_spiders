@@ -106,14 +106,4 @@ class FilipucciSpider(scrapy.Spider):
 
             yield item
         except:
-            pdb.set_trace()
-
-
-    def parse_download(self, response):
-        item = response.meta['item']
-        file_name = item['common_name'] + "_" + item['cat_nr'] + ".mp3"
-        item['mp3_file'] = file_name
-        with open(file_name, 'wb') as f:
-            f.write(response.body)
-
-        yield item
+            pass
