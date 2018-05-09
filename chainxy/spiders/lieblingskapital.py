@@ -23,9 +23,14 @@ class LieblingskapitalSpider(scrapy.Spider):
     base_url = "https://www.lieblingskapital.de"
 
     def parse(self, response):
-        column_list = response.xpath('//div[@class="columns__column shop_category__products_list_item"]/a/@href').extract()
+        column_list = response.xpath('//div[@class="columns__column shop_category__products_list_item"]')
 
-        for url in column_list:
+        for column in column_list:
+
+            if 'Nicht' in column.xpath('.//span[@class="product_preview__availability"]/text()').extract_first():
+                continue
+
+            url = column.xpath('./a/@href').extract_first()
             yield scrapy.Request(url=self.base_url + url, callback=self.parse_watch)
 
     def parse_watch(self, response):
@@ -46,7 +51,12 @@ class LieblingskapitalSpider(scrapy.Spider):
             item['currency'] = response.xpath('//meta[@property="og:price:amount"]/@content').extract_first()
             item['dealer_link'] = response.url
             image_urls = response.xpath('(//div[@class="shop_product__overview__gallery__thumbnails--wrapper"])[1]/div/@data-src').extract()
-            item['img_link'] = '; '.join(image_urls)            
+
+            images = []
+            for image in image_urls:
+                images.append('https:' + image.strip().split('?')[0])
+
+            item['img_link'] = '"' + ', '.join(images) + '"'
 
             dd_list = response.xpath('//dl[@class="shop_product__details__specifications"]//dd')
             key_list = response.xpath('//dl[@class="shop_product__details__specifications"]//dh/text()').extract()

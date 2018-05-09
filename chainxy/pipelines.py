@@ -40,7 +40,7 @@ class ChainxyPipeline(object):
         file = open(file_name, 'w+b')
         self.files[spider] = file
         self.exporter = CsvItemExporter(file)
-        self.exporter.fields_to_export = ["website_id","watchr_id","shop_id","sku","brand","model","ref","box","papers","year","description","movement","case_size","case_material","crystal","dial_color","gemstones","bracelet_material","bracelet_color","clasp_material","clasp_type","price","watchr_price","currency","dealer_link","img_link","img1_link","img2_link","img3_link","exp_description"]
+        self.exporter.fields_to_export = ["website_id","watchr_id","shop_id","sku","brand","model","ref","box","papers","year","description","movement","case_size","case_material","crystal","dial_color","gemstones","bracelet_material","bracelet_color","clasp_material","clasp_type","price","watchr_price","currency","dealer_link","img_link","exp_description"]
         self.exporter.start_exporting()        
 
     def spider_closed(self, spider):

@@ -52,7 +52,12 @@ class FilipucciSpider(scrapy.Spider):
             item['currency'] = response.xpath('//*[@itemprop="currency"]/@content').extract_first()
             item['dealer_link'] = response.url
             image_urls = response.xpath('//*[@class="images"]//img/@src').extract()
-            item['img_link'] = '; '.join(image_urls)
+            
+            images = []
+            for image in image_urls:
+                images.append('https:' + image.strip().split('?')[0])
+
+            item['img_link'] = '"' + ', '.join(images) + '"'
 
             item['description'] = response.xpath('//*[@itemprop="description"]/@content').extract_first()
             item['exp_description'] = ', '.join(response.xpath('//ul[@class="usps"]/li//text()').extract())
