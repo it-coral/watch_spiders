@@ -40,9 +40,9 @@ class LieblingskapitalSpider(scrapy.Spider):
         try:
             name = response.xpath('//*[@itemprop="name"]/@content').extract_first()
             
-            item['watchr_id'] = ""
+            item['watchr_id'] = "empty"
             item['shop_id'] = "Shop9"
-            item['sku'] = ""
+            item['sku'] = "empty"
             item['price'] = response.xpath('//meta[@property="og:price:amount"]/@content').extract_first().replace('.00', '').replace(',', '')
 
             if int(item['price']) < 1000:

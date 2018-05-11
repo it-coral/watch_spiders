@@ -37,9 +37,9 @@ class FilipucciSpider(scrapy.Spider):
         try:
             name = response.xpath('//*[@itemprop="name"]/@content').extract_first()
             item['website_id'] = response.xpath('//div[@class="copyright col-md-6"]/a/@href').extract_first().split('/')[-1]
-            item['watchr_id'] = ""
+            item['watchr_id'] = "empty"
             item['shop_id'] = "Shop8"
-            item['sku'] = ""
+            item['sku'] = "empty"
             item['brand'] = name.split(' ')[0]
             item['ref'] = name.split(' ')[-1]
             item['model'] = name.replace(item['brand'], '').replace(item['ref'], '').strip()

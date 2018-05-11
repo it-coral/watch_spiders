@@ -53,9 +53,9 @@ class CresuswatchesSpider(scrapy.Spider):
 
         try:
             name = response.xpath('//*[@itemprop="name"]/@content').extract_first()            
-            item['watchr_id'] = ""
+            item['watchr_id'] = "empty"
             item['shop_id'] = "Shop10"
-            item['sku'] = ""
+            item['sku'] = "empty"
             item['brand'] = response.xpath('//h1[@itemprop="brand"]/a/text()').extract_first()
 
             item['price'] = response.xpath('//meta[@itemprop="price"]/@content').extract_first()
