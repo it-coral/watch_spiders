@@ -40,7 +40,7 @@ pycparser==2.18
 PyDispatcher==2.0.5
 pyOpenSSL==17.5.0
 python-dateutil==2.7.2
-PyYAML==3.12
+PyYAML==5.4
 queuelib==1.5.0
 requests==2.18.4
 rsa==3.4.2
